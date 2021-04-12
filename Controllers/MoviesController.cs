@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebAppMvc.Models;
+using WebAppMvc.ViewModels;
 
 namespace WebAppMvc.Controllers
 {
@@ -13,33 +14,23 @@ namespace WebAppMvc.Controllers
         public ActionResult Random()
         {
             var movie = new Movie() { Name = "Shrek" };
-            return View(movie);
-            //return Content("Hello World");
-            //return HttpNotFound();
-            //return new EmptyResult();
-            //return RedirectToAction("Index", "Home", new { page = 1, sortBy = "name" });
-        }
-
-        //Movies/Edit/1 returns id = 1
-        public ActionResult Edit(int id)
-        {
-            return Content("id=" + id);
-        }
-
-        //movies
-        public ActionResult Index(int? pageIndex, string sortBy)
-        {
-            if (!pageIndex.HasValue)
+            var customers = new List<Customer>
             {
-                pageIndex = 1; 
-            }
-            if (String.IsNullOrWhiteSpace(sortBy))
+                new Customer{ Name = "Customer 1"},
+                new Customer{ Name = "Customer 2"},
+                new Customer{ Name = "Customer 3"}
+            };
+
+            var viewModel = new RandomMovieViewModel
             {
-                sortBy = "Name";
-            }
-            return Content(String.Format("pageIndex={0}&sortBy={1}", pageIndex, sortBy));
+                Movie = movie,
+                Customers = customers
+            };
+
+            return View(viewModel);
         }
         
+        [Route("movies/released/{year}/{month:regex(\\d{4}):range(1, 12)}")]
         public ActionResult ByReleaseDate(int year, int month)
         {
             return Content(year + "/" + month);

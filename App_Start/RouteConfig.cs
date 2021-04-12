@@ -15,12 +15,8 @@ namespace WebAppMvc
 
             //order matters, define from most specific to most generic
             //this is a custom route
-            routes.MapRoute(
-                "MoviesByReleaseDate",
-                "movies/released/{year}/{month}",
-                new { controller = "Movies", action = "ByReleaseDate"},
-                new {year = @"\d{4}", month = @"\d{2}"}
-                );
+            routes.MapMvcAttributeRoutes();
+
 
             routes.MapRoute(
                 name: "Default",
